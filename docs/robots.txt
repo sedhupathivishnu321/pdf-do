@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sedhupathivishnu321.github.io/pdf-do/sitemap.xml
