@@ -16,6 +16,8 @@ using Microsoft.Win32;
 
 [assembly: AssemblyTitle("PDF Do Setup")]
 [assembly: AssemblyProduct("PDF Do")]
+[assembly: AssemblyCompany("VIN TECHNOLOGIES")]
+[assembly: AssemblyCopyright("Copyright (c) 2026 VIN TECHNOLOGIES")]
 [assembly: AssemblyVersion("1.1.0.0")]
 
 namespace PDFDoSetup
@@ -209,7 +211,7 @@ namespace PDFDoSetup
             Registry.CurrentUser.CreateSubKey(@"Software\Classes\.pdf\OpenWithList\PDFDo.exe").Close();
             using (var u = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\PDFDo"))
             {
-                u.SetValue("DisplayName", "PDF Do"); u.SetValue("DisplayVersion", "1.1.0"); u.SetValue("Publisher", "PDF Do");
+                u.SetValue("DisplayName", "PDF Do"); u.SetValue("DisplayVersion", "1.1.0"); u.SetValue("Publisher", "VIN TECHNOLOGIES");
                 u.SetValue("DisplayIcon", icon); u.SetValue("InstallLocation", Dest);
                 string setup = Path.Combine(Dest, "Uninstall PDF Do.exe");
                 u.SetValue("UninstallString", "\"" + setup + "\" /uninstall");

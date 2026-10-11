@@ -11,7 +11,8 @@ using Microsoft.Win32;
 [assembly: AssemblyTitle("PDF Do")]
 [assembly: AssemblyProduct("PDF Do")]
 [assembly: AssemblyDescription("Private, offline PDF studio")]
-[assembly: AssemblyCompany("PDF Do")]
+[assembly: AssemblyCompany("VIN TECHNOLOGIES")]
+[assembly: AssemblyCopyright("Copyright (c) 2026 VIN TECHNOLOGIES")]
 [assembly: AssemblyVersion("1.1.0.0")]
 [assembly: AssemblyFileVersion("1.1.0.0")]
 
