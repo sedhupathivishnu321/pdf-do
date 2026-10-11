@@ -38,7 +38,10 @@ h2{font-size:30px;margin:56px 0 20px}
 .shots figure{margin:0}
 .shots img{width:100%;border-radius:10px;border:1px solid var(--line)}
 .shots figcaption{color:var(--mute);font-size:14px;text-align:center;margin-top:6px}
-ul.honest li{margin:6px 0;color:var(--mute)}
+ol.steps{padding-left:22px;color:var(--mute)}
+ol.steps li{margin:12px 0;padding-left:6px}
+ol.steps b{color:var(--ink)}
+code{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:14px}
 footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 0;color:var(--mute);font-size:14px;text-align:center}
 </style>
 </head>
@@ -46,15 +49,14 @@ footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 0;color:var
 <div class="wrap">
 <header>
   <img src="logo.png" alt="PDF Do logo"><b>PDF Do</b>
-  <nav><a href="#features">Features</a><a href="#convert">Word conversion</a><a href="#download">Download</a><a href="https://github.com/sedhupathivishnu321/pdf-do">GitHub</a><a href="https://buymeacoffee.com/vishnu_535r" target="_blank" rel="noopener">&#9749; Support</a></nav>
+  <nav><a href="#features">Features</a><a href="#convert">Word conversion</a><a href="#howto">How to use</a><a href="https://github.com/sedhupathivishnu321/pdf-do">GitHub</a><a href="https://buymeacoffee.com/vishnu_535r" target="_blank" rel="noopener">&#9749; Support</a></nav>
 </header>
 
 <section class="hero">
   <h1>Every PDF tool you need.<br><span>Private by design.</span></h1>
   <p>A free PDF studio for Windows that runs as its own Microsoft Edge app window. No sign-in, no cloud, no uploads - your files never leave your computer.</p>
   <div class="btns">
-    <a class="btn p" href="https://github.com/sedhupathivishnu321/pdf-do/releases/latest/download/PDFDoSetup.exe">Download installer (Windows)</a>
-    <a class="btn s" href="https://github.com/sedhupathivishnu321/pdf-do/releases/latest/download/PDFDo-Portable.exe">Portable .exe</a>
+    <a class="btn p" href="https://github.com/sedhupathivishnu321/pdf-do/releases/latest/download/PDFDoSetup.exe">Download for Windows</a>
   </div>
   <div class="small">Free &amp; open source (AGPL-3.0) &middot; Windows 10/11 &middot; ~168 MB</div>
 </section>
@@ -82,20 +84,19 @@ footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 0;color:var
   <figure><img src="img/compare.png" alt="Compare"><figcaption>Compare</figcaption></figure>
 </div>
 
-<h2>Honest limits</h2>
-<ul class="honest">
-  <li>Stacked multi-line equations are placed as pictures in Word, single-line equations become editable Word equations.</li>
-  <li>Text inside raster images is only recovered through OCR.</li>
-  <li>The installer is signed with a self-signed "VIN TECHNOLOGIES" certificate, so Windows SmartScreen may warn: choose "More info" then "Run anyway".</li>
-  <li>The benchmark documents are the author's own; see the repository for the measured results.</li>
-</ul>
+<h2 id="howto">How to use PDF Do</h2>
+<ol class="steps">
+  <li><b>Download and install.</b> Click <i>Download for Windows</i> and run <code>PDFDoSetup.exe</code>. It installs for your user only, with no admin rights. If Windows SmartScreen shows a warning, click <i>More info</i>, then <i>Run anyway</i>.</li>
+  <li><b>Open PDF Do.</b> Use the Desktop or Start menu shortcut. It opens in its own window and needs no account or internet.</li>
+  <li><b>Open a PDF.</b> Click <i>Open a PDF</i> (or press Ctrl+O), or drag files onto the window. You can also right-click a PDF in Explorer and choose <i>Open with &rarr; PDF Do</i>. Several files open as tabs.</li>
+  <li><b>Pick a tool.</b> Use the left sidebar: <i>Read, Annotate, Edit, Pages, Merge, Compare, Convert, Protect, Forms</i>. Press Ctrl+K to search every tool by name.</li>
+  <li><b>Annotate or edit.</b> In <i>Annotate</i>, choose highlight, pen, shapes or notes and draw on the page. In <i>Edit</i>, click existing text to rewrite it, or add new text with any font, color and size.</li>
+  <li><b>Organize pages.</b> In <i>Pages</i>, drag thumbnails to reorder, and rotate, delete, extract or split. In <i>Merge</i>, add several PDFs or images and combine them into one file.</li>
+  <li><b>Convert.</b> In <i>Convert</i>, choose Word, images, text, Markdown or HTML and click convert. Use <i>Recognize text</i> to make a scanned PDF searchable.</li>
+  <li><b>Protect.</b> In <i>Protect</i>, set a password, redact sensitive text or compress the file.</li>
+  <li><b>Save.</b> Click <i>Save</i> (Ctrl+S) to write your changes into the PDF. Unsaved work is recovered if the app closes unexpectedly.</li>
+</ol>
 
-<h2 id="download">Download</h2>
-<div class="btns">
-  <a class="btn p" href="https://github.com/sedhupathivishnu321/pdf-do/releases/latest/download/PDFDoSetup.exe">Installer - PDFDoSetup.exe</a>
-  <a class="btn s" href="https://github.com/sedhupathivishnu321/pdf-do/releases/latest/download/PDFDo-Portable.exe">Portable - PDFDo-Portable.exe</a>
-  <a class="btn s" href="https://github.com/sedhupathivishnu321/pdf-do">Source code</a>
-</div>
 <h2>Support PDF Do</h2>
 <p style="color:var(--mute)">PDF Do is free and has no ads or accounts. If it saves you time, you can buy me a coffee to help keep it going.</p>
 <div class="btns" style="justify-content:flex-start"><a class="btn p" href="https://buymeacoffee.com/vishnu_535r" target="_blank" rel="noopener">&#9749; Buy me a coffee</a></div>
