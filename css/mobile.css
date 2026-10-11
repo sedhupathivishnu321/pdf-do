@@ -1,0 +1,66 @@
+/* PDF Do - phone layout. Applied when body.mobile is set (viewport <= 820px, e.g. the Android app). */
+:root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--sal:env(safe-area-inset-left,0px);--sar:env(safe-area-inset-right,0px)}
+html,body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+body.mobile{-webkit-user-select:none;user-select:none}
+body.mobile input,body.mobile textarea,body.mobile [contenteditable]{-webkit-user-select:text;user-select:text}
+body.mobile #pages .textLayer,body.mobile #pages .tl{-webkit-user-select:text;user-select:text}
+
+/* shell: top bar / content / bottom navigation */
+body.mobile #app{grid-template-columns:minmax(0,1fr);grid-template-rows:calc(52px + var(--sat)) minmax(0,1fr) calc(64px + var(--sab));width:100%;overflow:hidden}
+body.mobile #titlebar,body.mobile #rail,body.mobile #work,body.mobile #stage,body.mobile #views{min-width:0;max-width:100%}
+body.mobile #titlebar{grid-column:1;gap:6px;padding:var(--sat) calc(8px + var(--sar)) 0 calc(10px + var(--sal))}
+body.mobile .brand .wordmark{display:none}
+body.mobile .brand .logo{width:30px;height:30px}
+body.mobile #btn-cmdk,body.mobile #btn-redo,body.mobile #btn-theme,body.mobile .tb-sep{display:none}
+body.mobile .tb-right{gap:0}
+body.mobile .tb-right .icon-btn:nth-child(-n+2){display:inline-flex}
+body.mobile .tb-right .icon-btn{width:38px;height:38px}
+body.mobile #btn-save{padding:0;width:38px;height:38px;justify-content:center;border-radius:12px;margin:0 2px}
+body.mobile #btn-save span{display:none}
+body.mobile .tab{height:34px;max-width:150px}
+
+body.mobile #rail{grid-row:3;grid-column:1;flex-direction:row;justify-content:flex-start;align-items:stretch;gap:2px;padding:6px calc(6px + var(--sar)) calc(6px + var(--sab)) calc(6px + var(--sal));border-right:0;border-top:1px solid var(--line);overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+body.mobile #rail::-webkit-scrollbar{display:none}
+body.mobile .rail-btn{width:64px;min-width:64px;padding:6px 0 4px}
+body.mobile .rail-btn.on::before{left:50%;top:auto;bottom:-6px;width:22px;height:4px;border-radius:4px 4px 0 0;transform:translateX(-50%)}
+body.mobile .rail-sep,body.mobile .rail-spacer{display:none}
+body.mobile #work{grid-row:2;grid-column:1}
+
+/* side panels become slide-over drawers */
+body.mobile #leftpanel,body.mobile #inspector{position:absolute;top:0;bottom:0;z-index:40;width:0;box-shadow:none;background:var(--solid)}
+body.mobile #leftpanel{left:0}body.mobile #inspector{right:0}
+body.mobile.has-left #leftpanel{width:min(86vw,320px);box-shadow:8px 0 40px rgba(0,0,0,.55)}
+body.mobile.has-insp #inspector{width:min(88vw,340px);box-shadow:-8px 0 40px rgba(0,0,0,.55)}
+body.mobile #leftpanel>*{min-width:0;width:min(86vw,320px)}body.mobile #inspector>*{min-width:0;width:min(88vw,340px)}
+
+/* viewer */
+body.mobile #scroll{padding:74px 6px 96px}
+body.mobile #scroll{touch-action:pan-x pan-y}
+body.mobile #scroll[data-tool=pen],body.mobile #scroll[data-tool=rect],body.mobile #scroll[data-tool=ellipse],body.mobile #scroll[data-tool=line],body.mobile #scroll[data-tool=arrow],body.mobile #scroll[data-tool=measure],body.mobile #scroll[data-tool=area],body.mobile #scroll[data-tool=redact],body.mobile #scroll[data-tool=whiteout],body.mobile #scroll[data-tool=eraser]{touch-action:none}
+body.mobile #island{top:8px;max-width:calc(100% - 16px);border-radius:16px}
+body.mobile #dock{bottom:10px;max-width:calc(100% - 16px)}
+body.mobile .pages.two{grid-template-columns:1fr}
+
+/* views */
+body.mobile .tool{width:40px;height:40px;flex:none}
+body.mobile .hero{padding:18px 16px 8px}
+body.mobile .hero h1,body.mobile .hero-title{font-size:34px;line-height:1.08}
+body.mobile .cgroup,body.mobile .view-head{padding-left:16px;padding-right:16px}
+body.mobile .tiles{grid-template-columns:repeat(2,1fr);gap:10px}
+body.mobile .rec-grid,body.mobile .cards{grid-template-columns:1fr}
+body.mobile .merge-wrap{padding:12px 14px 40px}
+body.mobile .merge-toolbar{flex-wrap:wrap;gap:8px}
+body.mobile .msort{flex-wrap:wrap}
+body.mobile .mcard{grid-template-columns:28px 52px 1fr auto;gap:10px}
+body.mobile .cmp-body{padding:8px}
+body.mobile #pagegrid{--tw:130px;gap:18px 14px;padding:0 12px}
+body.mobile .tx-grid,body.mobile .grid2,body.mobile .perm-grid,body.mobile .kbd-grid{grid-template-columns:1fr}
+body.mobile .hf-grid{grid-template-columns:44px 1fr 1fr 1fr}
+body.mobile .fm-row{grid-template-columns:100px 1fr 32px}
+
+/* dialogs and palette */
+body.mobile .m-card{width:94vw;max-height:88vh}
+body.mobile #palette .pal-card,body.mobile #palette>div{max-width:94vw}
+body.mobile .btn,body.mobile .icon-btn,body.mobile .seg button{min-height:38px}
+body.mobile input.input,body.mobile select.input,body.mobile textarea.input{font-size:16px}
+body.mobile #toasts{bottom:calc(76px + var(--sab))}

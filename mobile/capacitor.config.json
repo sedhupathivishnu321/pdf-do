@@ -1,0 +1,12 @@
+{
+  "appId": "com.vintechnologies.pdfdo",
+  "appName": "PDF Do",
+  "webDir": "www",
+  "backgroundColor": "#0b0916",
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "StatusBar": { "style": "DARK", "backgroundColor": "#0b0916", "overlaysWebView": false }
+  }
+}

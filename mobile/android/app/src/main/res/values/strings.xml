@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PDF Do</string>
+    <string name="title_activity_main">PDF Do</string>
+    <string name="package_name">com.vintechnologies.pdfdo</string>
+    <string name="custom_url_scheme">com.vintechnologies.pdfdo</string>
+</resources>

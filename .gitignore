@@ -16,3 +16,14 @@ _legacy_pdf_studio_pro/
 *.log
 .pytest_cache/
 pdf2docx_service/benchmarks/results/corpus_*.json
+
+# mobile (Android) build output and secrets
+mobile/www/
+mobile/dist/
+mobile/android/local.properties
+mobile/android/.gradle/
+mobile/android/app/build/
+mobile/android/build/
+*.jks
+*.keystore
+KEYSTORE-INFO.txt

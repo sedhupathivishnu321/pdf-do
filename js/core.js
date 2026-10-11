@@ -311,8 +311,19 @@
   };
   PD.readFile = async (f) => new Uint8Array(await f.arrayBuffer());
 
+  PD.native = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  // Android app: write the file to the app cache and open the system share sheet ("Save to Files", Drive, WhatsApp ...)
+  async function nativeShare(blob, name) {
+    const FS = window.Capacitor.Plugins.Filesystem, SH = window.Capacitor.Plugins.Share;
+    const b64 = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = rej; r.readAsDataURL(blob); });
+    const safe = name.replace(/[\\/:*?"<>|]+/g, '_');
+    const w = await FS.writeFile({ path: safe, data: b64, directory: 'CACHE', recursive: true });
+    await SH.share({ title: safe, text: safe, url: w.uri, dialogTitle: 'Save or share ' + safe });
+    return true;
+  }
   PD.download = function (data, name, mime) {
     const blob = data instanceof Blob ? data : new Blob([data], { type: mime || 'application/octet-stream' });
+    if (PD.native) { nativeShare(blob, name).catch((e) => { if (!/cancel/i.test(String(e && e.message))) PD.toast && PD.toast('Could not save: ' + (e && e.message || e), 'error'); }); return; }
     const a = h('a', { href: URL.createObjectURL(blob), download: name });
     document.body.appendChild(a); a.click();
     setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
@@ -322,7 +333,7 @@
     opts = opts || {};
     const blob = data instanceof Blob ? data : new Blob([data], { type: opts.mime || 'application/octet-stream' });
     const ext = (name.match(/\.[^.]+$/) || ['.pdf'])[0];
-    if (window.showSaveFilePicker) {
+    if (!PD.native && window.showSaveFilePicker) {
       try {
         const hd = await window.showSaveFilePicker({ suggestedName: name, types: [{ description: opts.desc || 'File', accept: { [opts.mime || 'application/octet-stream']: [ext] } }] });
         const w = await hd.createWritable(); await w.write(blob); await w.close();
