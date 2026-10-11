@@ -75,6 +75,7 @@
       rail.appendChild(b);
     });
     rail.appendChild(h('div', { class: 'rail-spacer' }));
+    rail.appendChild(h('a', { class: 'rail-btn small', href: PD.SUPPORT_URL, target: '_blank', rel: 'noopener', 'data-tip': 'Buy me a coffee', 'data-side': 'right', html: PD.ic('heart', 20, 1.7) + '<span>Support</span>' }));
     rail.appendChild(h('button', { class: 'rail-btn small', 'data-tip': 'Settings', 'data-side': 'right', onclick: openSettings, html: PD.ic('gear', 20, 1.7) + '<span>Settings</span>' }));
   }
 
@@ -289,7 +290,7 @@
     cmd('Protect', 'Apply redactions', 'eyeoff', () => T.applyRedactions(), { need: true }); cmd('Protect', 'Protect with password (AES-256)', 'key', () => T.protectDialog(), { need: true, kw: 'encrypt lock secure restrict permissions' }); cmd('Protect', 'Remove password / restrictions', 'unlock', () => T.unlock(), { need: true, kw: 'decrypt unlock' }); cmd('Edit', 'Flatten annotations into the page', 'flatten', () => T.flattenAnnotations(), { need: true, kw: 'merge burn' }); cmd('View', 'Read aloud (start / stop)', 'speaker', () => T.readAloud(), { need: true, kw: 'speech listen tts' }); cmd('View', 'Book view', 'book', () => V.setLayout('book'), { need: true }); cmd('View', 'Go back', 'left', () => V.back(), { need: true, key: 'Alt+←' }); cmd('View', 'Go forward', 'right', () => V.forward(), { need: true, key: 'Alt+→' }); cmd('Protect', 'Flatten to images', 'flatten', () => T.flattenDialog(), { need: true, kw: 'unlock password' });
     cmd('Protect', 'Compress PDF', 'zip', () => T.compressDialog(), { need: true, kw: 'reduce size smaller' }); cmd('Protect', 'Remove hidden data (sanitize)', 'shield', () => T.sanitize(), { need: true });
     cmd('Protect', 'Remove metadata', 'info', () => T.metadata(), { need: true });
-    cmd('App', 'Settings', 'gear', () => openSettings()); cmd('App', 'Keyboard shortcuts', 'keyboard', () => showShortcuts(), { key: 'F1' }); cmd('App', 'About PDF Do', 'info', () => showAbout());
+    cmd('App', 'Settings', 'gear', () => openSettings()); cmd('App', 'Keyboard shortcuts', 'keyboard', () => showShortcuts(), { key: 'F1' }); cmd('App', 'About PDF Do', 'info', () => showAbout()); cmd('App', 'Support PDF Do (Buy me a coffee)', 'heart', () => window.open(PD.SUPPORT_URL, '_blank', 'noopener'));
     cmd('App', 'Theme: Ink (dark)', 'moon', () => setTheme('ink')); cmd('App', 'Theme: Paper (light)', 'sun', () => setTheme('paper'));
   }
 
@@ -436,7 +437,7 @@
     PD.modal({ title: 'Keyboard shortcuts', icon: 'keyboard', wide: true, content: h('div', { class: 'kbd-grid' }, rows.map(([k, d]) => h('div', null, h('kbd', null, k), h('span', null, d)))), buttons: [{ label: 'Close', kind: 'primary', value: true }] });
   }
   function showAbout() {
-    PD.modal({ title: 'About PDF Do', content: h('div', { class: 'about' }, h('img', { src: 'assets/logo.svg' }), h('h2', null, 'PDF', h('b', null, 'Do')), h('p', null, 'Version 1.0 — a private, offline PDF studio.'), h('p', { class: 'muted small' }, 'Built on pdf.js, pdf-lib, fontkit and Tesseract (all bundled). No accounts. No cloud. Your files never leave this computer.')), buttons: [{ label: 'Close', kind: 'primary', value: true }] });
+    PD.modal({ title: 'About PDF Do', content: h('div', { class: 'about' }, h('img', { src: 'assets/logo.svg' }), h('h2', null, 'PDF', h('b', null, 'Do')), h('p', null, 'Version 1.0 — a private, offline PDF studio.'), h('p', { class: 'muted small' }, 'Built on pdf.js, pdf-lib, fontkit and Tesseract (all bundled). No accounts. No cloud. Your files never leave this computer.'), h('p', null, h('a', { class: 'btn primary', href: PD.SUPPORT_URL, target: '_blank', rel: 'noopener' }, 'Buy me a coffee ☕')), h('p', { class: 'muted small' }, 'PDF Do is free. If it helps you, a coffee keeps it going.')), buttons: [{ label: 'Close', kind: 'primary', value: true }] });
   }
 
   /* ================= file menu ================= */
