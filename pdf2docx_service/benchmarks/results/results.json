@@ -1,0 +1,214 @@
+{
+  "environment": {
+    "python": "3.11.15",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "cpu": "AMD64 Family 23 Model 96 Stepping 1, AuthenticAMD",
+    "cores": 12,
+    "ram_gb": 8.0,
+    "pymupdf": "1.28.2",
+    "docx": "1.2.0",
+    "jiwer": "?",
+    "pdf2docx": "0.5.13",
+    "tesseract": "5.4.0.20240606"
+  },
+  "results": [
+    {
+      "doc": "text",
+      "tool": "ours",
+      "pages": 3,
+      "ok": true,
+      "timed_out": false,
+      "seconds": 2.79,
+      "peak_mb": 92.2,
+      "error": "",
+      "text": {
+        "wer": 0.0,
+        "cer": 0.0
+      },
+      "layout": {
+        "page_ratio": 1.0,
+        "mean_err_pct_width": 2.03,
+        "within_2pct": 0.645,
+        "matched_words": 736
+      }
+    },
+    {
+      "doc": "text",
+      "tool": "pdf2docx",
+      "pages": 3,
+      "ok": true,
+      "timed_out": false,
+      "seconds": 1.23,
+      "peak_mb": 88.0,
+      "error": "",
+      "text": {
+        "wer": 0.0082,
+        "cer": 0.004
+      },
+      "layout": {
+        "page_ratio": 1.0,
+        "mean_err_pct_width": 0.31,
+        "within_2pct": 1.0,
+        "matched_words": 738
+      }
+    },
+    {
+      "doc": "twocol",
+      "tool": "ours",
+      "pages": 2,
+      "ok": true,
+      "timed_out": false,
+      "seconds": 3.38,
+      "peak_mb": 98.5,
+      "error": "",
+      "text": {
+        "wer": 0.0,
+        "cer": 0.0
+      },
+      "layout": {
+        "page_ratio": 1.0,
+        "mean_err_pct_width": 2.8,
+        "within_2pct": 0.606,
+        "matched_words": 908
+      }
+    },
+    {
+      "doc": "twocol",
+      "tool": "pdf2docx",
+      "pages": 2,
+      "ok": true,
+      "timed_out": false,
+      "seconds": 1.26,
+      "peak_mb": 88.9,
+      "error": "",
+      "text": {
+        "wer": 0.4031,
+        "cer": 0.3882
+      },
+      "layout": {
+        "page_ratio": 1.0,
+        "mean_err_pct_width": 0.44,
+        "within_2pct": 0.977,
+        "matched_words": 908
+      }
+    },
+    {
+      "doc": "tables",
+      "tool": "ours",
+      "pages": 1,
+      "ok": true,
+      "timed_out": false,
+      "seconds": 1.21,
+      "peak_mb": 86.0,
+      "error": "",
+      "text": {
+        "wer": 0.0,
+        "cer": 0.0
+      },
+      "table": {
+        "f1": 1.0,
+        "found": 1
+      },
+      "layout": {
+        "page_ratio": 1.0,
+        "mean_err_pct_width": 7.61,
+        "within_2pct": 0.225,
+        "matched_words": 40
+      }
+    },
+    {
+      "doc": "tables",
+      "tool": "pdf2docx",
+      "pages": 1,
+      "ok": true,
+      "timed_out": false,
+      "seconds": 1.25,
+      "peak_mb": 84.5,
+      "error": "",
+      "text": {
+        "wer": 0.0,
+        "cer": 0.0
+      },
+      "table": {
+        "f1": 1.0,
+        "found": 1
+      },
+      "layout": {
+        "page_ratio": 1.0,
+        "mean_err_pct_width": 0.34,
+        "within_2pct": 1.0,
+        "matched_words": 40
+      }
+    },
+    {
+      "doc": "scanned",
+      "tool": "ours",
+      "pages": 2,
+      "ok": true,
+      "timed_out": false,
+      "seconds": 17.79,
+      "peak_mb": 197.8,
+      "error": "",
+      "text": {
+        "wer": 0.0264,
+        "cer": 0.0116
+      },
+      "layout": null
+    },
+    {
+      "doc": "scanned",
+      "tool": "pdf2docx",
+      "pages": 2,
+      "ok": true,
+      "timed_out": false,
+      "seconds": 2.93,
+      "peak_mb": 122.9,
+      "error": "",
+      "text": {
+        "wer": 1.0,
+        "cer": 1.0
+      },
+      "layout": null
+    },
+    {
+      "doc": "mixed",
+      "tool": "ours",
+      "pages": 2,
+      "ok": true,
+      "timed_out": false,
+      "seconds": 10.46,
+      "peak_mb": 183.8,
+      "error": "",
+      "text": {
+        "wer": 0.0163,
+        "cer": 0.0077
+      },
+      "layout": {
+        "page_ratio": 1.0,
+        "mean_err_pct_width": 4.22,
+        "within_2pct": 0.154,
+        "matched_words": 246
+      }
+    },
+    {
+      "doc": "mixed",
+      "tool": "pdf2docx",
+      "pages": 2,
+      "ok": true,
+      "timed_out": false,
+      "seconds": 3.15,
+      "peak_mb": 117.4,
+      "error": "",
+      "text": {
+        "wer": 0.5,
+        "cer": 0.5001
+      },
+      "layout": {
+        "page_ratio": 1.0,
+        "mean_err_pct_width": 0.31,
+        "within_2pct": 1.0,
+        "matched_words": 246
+      }
+    }
+  ]
+}

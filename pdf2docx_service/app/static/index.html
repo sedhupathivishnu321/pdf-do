@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PDF to Word — PDF Do</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--bg:#0b0b14;--card:#14141f;--line:#2a2a3d;--text:#ecebf8;--muted:#a09fb9;--a:#7c5cff;--b:#ff6a4d;--ok:#22c55e;--err:#f43f5e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
+main{max-width:980px;margin:0 auto;padding:32px 20px 60px}
+h1{font-size:30px;margin:0 0 4px}p.sub{color:var(--muted);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:18px}
+#drop{border:2px dashed var(--line);border-radius:16px;padding:42px 20px;text-align:center;cursor:pointer;transition:.2s}
+#drop.over,#drop:hover{border-color:var(--a);background:rgba(124,92,255,.08)}
+.row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:16px}
+label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+select,input[type=text]{background:#0e0e19;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font:inherit}
+button{border:0;border-radius:12px;padding:11px 20px;font:600 15px system-ui;color:#fff;background:linear-gradient(135deg,var(--a),var(--b));cursor:pointer}
+button:disabled{opacity:.45;cursor:default}button.ghost{background:#222236}
+.bar{height:8px;border-radius:8px;background:#222236;overflow:hidden;margin:14px 0 6px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--b));transition:width .3s}
+#msg{color:var(--muted);font-size:14px}.err{color:var(--err)}.ok{color:var(--ok)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}.grid img{width:100%;border-radius:8px;background:#fff}
+.stats{display:flex;gap:22px;flex-wrap:wrap;margin-top:10px;color:var(--muted);font-size:14px}.stats b{color:var(--text)}
+.chk{flex-direction:row;align-items:center;gap:8px;color:var(--text)}ul{margin:8px 0 0;padding-left:20px;color:#fbbf24}
+</style>
+</head>
+<body>
+<main>
+  <h1>PDF → Word</h1>
+  <p class="sub">Editable .docx with columns, tables, images, fonts and formatting. Files are processed locally and deleted automatically.</p>
+  <div class="card">
+    <div id="drop" tabindex="0">Drop a PDF here or click to choose<br><small id="fname" style="color:var(--muted)"></small></div>
+    <input id="file" type="file" accept=".pdf,application/pdf" hidden>
+    <div class="row">
+      <label>Mode<select id="mode"><option value="layout">Layout-preserved (recommended: same pages, same positions, text editable)</option><option value="editable">Reflowing Word (paragraphs, columns, real tables)</option></select></label>
+      <label>OCR<select id="ocr"><option value="auto">Automatic (scanned pages only)</option><option value="always">Always</option><option value="never">Never</option></select></label>
+      <label>OCR language<input id="lang" type="text" value="eng" size="8" pattern="[a-z]{3}(\+[a-z]{3})*"></label>
+      <label>Pages (optional)<input id="pages" type="text" placeholder="e.g. 1-3,5" size="12"></label>
+      <label class="chk"><input id="math" type="checkbox" checked> Equations as images</label>
+      <label class="chk"><input id="tables" type="checkbox" checked> Detect tables</label>
+      <button id="go" disabled>Convert</button>
+    </div>
+  </div>
+  <div class="card" id="progress" hidden>
+    <div class="bar"><i id="fill"></i></div><div id="msg"></div>
+    <div id="done" hidden>
+      <div class="row"><button id="dl">Download .docx</button><button class="ghost" id="del">Delete from server now</button></div>
+      <div class="stats" id="stats"></div><ul id="warn"></ul>
+    </div>
+  </div>
+  <div class="card" id="previewCard" hidden>
+    <div class="row" style="margin:0 0 12px"><b>Preview</b>
+      <label class="chk"><input type="checkbox" id="layoutBox"> Show detected layout (paragraphs blue, tables orange, figures green)</label></div>
+    <div class="grid" id="thumbs"></div>
+  </div>
+</main>
+<script>
+const $=s=>document.querySelector(s);let file=null,job=null,timer=null;
+const pick=f=>{if(!f)return;if(!/\.pdf$/i.test(f.name)){return fail('Please choose a PDF file.')}file=f;$('#fname').textContent=f.name+' ('+(f.size/1048576).toFixed(1)+' MB)';$('#go').disabled=false};
+const fail=m=>{$('#progress').hidden=false;$('#msg').innerHTML='<span class="err"></span>';$('#msg').firstChild.textContent=m;$('#go').disabled=!file};
+$('#drop').onclick=()=>$('#file').click();$('#file').onchange=e=>pick(e.target.files[0]);
+['dragover','dragenter'].forEach(ev=>$('#drop').addEventListener(ev,e=>{e.preventDefault();$('#drop').classList.add('over')}));
+['dragleave','drop'].forEach(ev=>$('#drop').addEventListener(ev,e=>{e.preventDefault();$('#drop').classList.remove('over')}));
+$('#drop').addEventListener('drop',e=>pick(e.dataTransfer.files[0]));
+$('#go').onclick=async()=>{
+  const fd=new FormData();fd.append('file',file);fd.append('ocr',$('#ocr').value);fd.append('mode',$('#mode').value);fd.append('lang',$('#lang').value);fd.append('pages',$('#pages').value);
+  fd.append('math_as_image',$('#math').checked);fd.append('tables',$('#tables').checked);
+  $('#go').disabled=true;$('#progress').hidden=false;$('#done').hidden=true;$('#fill').style.width='2%';$('#msg').textContent='Uploading…';
+  let r;try{r=await fetch('/api/convert',{method:'POST',body:fd})}catch(e){return fail('Could not reach the server.')}
+  const j=await r.json();if(!r.ok)return fail(j.detail||'Upload failed');
+  job=j.job_id;thumbs(j.pages);poll();
+};
+function thumbs(n){$('#previewCard').hidden=false;const g=$('#thumbs');g.innerHTML='';const lay=$('#layoutBox').checked?'layout':'source';
+  for(let i=1;i<=Math.min(n,12);i++){const im=new Image();im.loading='lazy';im.src=`/api/jobs/${job}/preview/${i}?kind=${lay}&t=${Date.now()}`;g.appendChild(im)}}
+$('#layoutBox').onchange=()=>job&&thumbs(12);
+async function poll(){clearTimeout(timer);const r=await fetch('/api/jobs/'+job);if(!r.ok)return fail('The job expired.');const s=await r.json();
+  $('#fill').style.width=Math.round((s.progress||0)*100)+'%';$('#msg').textContent=s.message||'';
+  if(s.status==='error'){$('#go').disabled=false;return fail(s.error||'Conversion failed')}
+  if(s.status==='done'){$('#msg').innerHTML='<span class="ok">Conversion finished</span>';$('#done').hidden=false;$('#go').disabled=false;
+    const R=s.report;$('#stats').innerHTML=`<span>Pages <b>${R.pages}</b></span><span>Text pages <b>${R.native_pages}</b></span><span>OCR pages <b>${R.ocr_pages}</b></span><span>Tables <b>${R.tables}</b></span><span>Images <b>${R.images+R.figures}</b></span><span>Equations <b>${R.math_regions}</b></span><span>Time <b>${R.seconds}s</b></span>`+(R.quality&&R.quality.text_completeness!=null?`<span>Text completeness <b>${Math.round(R.quality.text_completeness*100)}%</b></span>`:'')+(R.mean_ocr_confidence!=null?`<span>OCR confidence <b>${R.mean_ocr_confidence}%</b></span>`:'');
+    const w=$('#warn');w.innerHTML='';(R.warnings||[]).concat((R.quality&&R.quality.notes)||[]).forEach(t=>{const li=document.createElement('li');li.textContent=t;w.appendChild(li)});return}
+  timer=setTimeout(poll,600)}
+$('#dl').onclick=()=>{location.href=`/api/jobs/${job}/download`};
+$('#del').onclick=async()=>{await fetch('/api/jobs/'+job,{method:'DELETE'});$('#progress').hidden=true;$('#previewCard').hidden=true;job=null};
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF Do - Private PDF Studio for Windows</title>
+<meta name="description" content="PDF Do is a free, offline PDF studio for Windows: read, annotate, edit, merge, compare, convert to Word, OCR and protect PDFs. No sign-in, no cloud.">
+<link rel="icon" href="logo.png">
+<style>
+:root{--bg:#0f0d1a;--card:#1a1730;--ink:#f2f0ff;--mute:#a9a4c9;--acc:#8b5cf6;--acc2:#ec4899;--line:#2b2750}
+@media (prefers-color-scheme:light){:root{--bg:#faf9ff;--card:#fff;--ink:#1b1736;--mute:#5b5780;--line:#e4e0f7}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header{padding:20px 0;display:flex;align-items:center;gap:12px}
+header img{width:40px;height:40px}
+header b{font-size:20px}
+header nav{margin-left:auto;display:flex;gap:16px;font-size:15px}
+header nav a{color:var(--mute);text-decoration:none}
+.hero{text-align:center;padding:48px 0 32px}
+.hero h1{font-size:clamp(32px,6vw,56px);line-height:1.1;margin:0 0 16px}
+.hero h1 span{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mute);max-width:640px;margin:0 auto 28px;font-size:18px}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 24px;border-radius:12px;text-decoration:none;font-weight:600}
+.btn.p{background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff}
+.btn.s{border:1px solid var(--line);color:var(--ink);background:var(--card)}
+.small{color:var(--mute);font-size:14px;margin-top:14px}
+.shot{margin:32px auto;border-radius:14px;border:1px solid var(--line);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.shot img{display:block;width:100%;height:auto}
+h2{font-size:30px;margin:56px 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h3{margin:0 0 8px;font-size:18px}
+.card p{margin:0;color:var(--mute);font-size:15px}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.shots figure{margin:0}
+.shots img{width:100%;border-radius:10px;border:1px solid var(--line)}
+.shots figcaption{color:var(--mute);font-size:14px;text-align:center;margin-top:6px}
+ul.honest li{margin:6px 0;color:var(--mute)}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 0;color:var(--mute);font-size:14px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <img src="logo.png" alt="PDF Do logo"><b>PDF Do</b>
+  <nav><a href="#features">Features</a><a href="#convert">Word conversion</a><a href="#download">Download</a><a href="https://github.com/sedhupathivishnu321/pdf-do">GitHub</a></nav>
+</header>
+
+<section class="hero">
+  <h1>Every PDF tool you need.<br><span>Private by design.</span></h1>
+  <p>A free PDF studio for Windows that runs as its own Microsoft Edge app window. No sign-in, no cloud, no uploads - your files never leave your computer.</p>
+  <div class="btns">
+    <a class="btn p" href="https://github.com/sedhupathivishnu321/pdf-do/releases/latest/download/PDFDoSetup.exe">Download installer (Windows)</a>
+    <a class="btn s" href="https://github.com/sedhupathivishnu321/pdf-do/releases/latest/download/PDFDo-Portable.exe">Portable .exe</a>
+  </div>
+  <div class="small">Free &amp; open source (AGPL-3.0) &middot; Windows 10/11 &middot; ~168 MB</div>
+</section>
+
+<div class="shot"><img src="img/annotate.png" alt="PDF Do annotating a research paper"></div>
+
+<h2 id="features">Features</h2>
+<div class="grid">
+  <div class="card"><h3>Read</h3><p>Continuous, single, two-page and book layouts, night and sepia modes, thumbnails, bookmarks, full-text search, presentation mode, read aloud, tabs.</p></div>
+  <div class="card"><h3>Annotate</h3><p>Highlight, underline, strikethrough, pen, shapes, arrows, measure tool, text boxes, sticky notes, stamps, undo and redo.</p></div>
+  <div class="card"><h3>Edit</h3><p>Rewrite existing text in place, add text with any font (bundled, your own .ttf/.otf, or installed), insert images, signatures, whiteout, links.</p></div>
+  <div class="card"><h3>Pages</h3><p>Drag to reorder, rotate, delete, duplicate, extract, split, crop, resize, page numbers, headers/footers, Bates numbers, watermarks.</p></div>
+  <div class="card"><h3>Merge</h3><p>Combine PDFs and images with per-file page ranges, drag ordering and sorting by name, date or size.</p></div>
+  <div class="card"><h3>Compare</h3><p>Side by side, overlay and swipe views with a word-level text diff and an HTML report.</p></div>
+  <div class="card"><h3>Convert</h3><p>PDF to Word, PNG/JPG, text, Markdown and HTML; images and text to PDF; offline OCR to searchable PDF.</p></div>
+  <div class="card"><h3>Protect</h3><p>AES-256 password protection with permission flags, true redaction, flatten, compress, sanitize, metadata editing.</p></div>
+  <div class="card"><h3>Forms</h3><p>Fill text fields, checkboxes, dropdowns and radio groups; add new fields; flatten.</p></div>
+</div>
+
+<h2 id="convert">PDF to Word that keeps your layout</h2>
+<p style="color:var(--mute)">A local conversion engine (PyMuPDF + bundled Tesseract OCR) rebuilds each page so the Word file keeps the same page count, text placement, images and equations. Scanned PDFs are handled with OCR. LaTeX papers, invoices and web prints are supported. Nothing is uploaded.</p>
+<div class="shots">
+  <figure><img src="img/convert.png" alt="Convert panel"><figcaption>Convert</figcaption></figure>
+  <figure><img src="img/pages.png" alt="Page organizer"><figcaption>Page organizer</figcaption></figure>
+  <figure><img src="img/compare.png" alt="Compare"><figcaption>Compare</figcaption></figure>
+</div>
+
+<h2>Honest limits</h2>
+<ul class="honest">
+  <li>Stacked multi-line equations are placed as pictures in Word, single-line equations become editable Word equations.</li>
+  <li>Text inside raster images is only recovered through OCR.</li>
+  <li>The installer is signed with a self-signed "VIN TECHNOLOGIES" certificate, so Windows SmartScreen may warn: choose "More info" then "Run anyway".</li>
+  <li>The benchmark documents are the author's own; see the repository for the measured results.</li>
+</ul>
+
+<h2 id="download">Download</h2>
+<div class="btns">
+  <a class="btn p" href="https://github.com/sedhupathivishnu321/pdf-do/releases/latest/download/PDFDoSetup.exe">Installer - PDFDoSetup.exe</a>
+  <a class="btn s" href="https://github.com/sedhupathivishnu321/pdf-do/releases/latest/download/PDFDo-Portable.exe">Portable - PDFDo-Portable.exe</a>
+  <a class="btn s" href="https://github.com/sedhupathivishnu321/pdf-do">Source code</a>
+</div>
+<p class="small" style="text-align:center">The installer needs no admin rights and installs per-user. The portable file runs without installing.</p>
+
+<footer>
+  &copy; VIN TECHNOLOGIES &middot; PDF Do is free software under the <a href="https://github.com/sedhupathivishnu321/pdf-do/blob/main/LICENSE">GNU AGPL-3.0</a> &middot; <a href="https://github.com/sedhupathivishnu321/pdf-do">Source on GitHub</a>
+</footer>
+</div>
+</body>
+</html>
