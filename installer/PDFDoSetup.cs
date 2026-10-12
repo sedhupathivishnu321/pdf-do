@@ -58,15 +58,33 @@ namespace PDFDoSetup
                 string self = Assembly.GetExecutingAssembly().Location;
                 if (Path.GetFileNameWithoutExtension(self).ToLowerInvariant().IndexOf("portable") >= 0 || Array.IndexOf(args, "/portable") >= 0)
                     return RunPortable(self, args);
-                if (uninstall) return Uninstall(silent);
-                return Install(silent);
+                // only one install / uninstall at a time
+                bool first;
+                using (var mx = new System.Threading.Mutex(true, "PDFDoSetupSingleInstance", out first))
+                {
+                    if (!first) return ExitInstallRunning;
+                    if (uninstall) return Uninstall(silent);
+                    return Install(silent);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("PDF Do setup failed:\n\n" + ex.Message, "PDF Do Setup", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return 1;
+                int code = ExitFailure;
+                if (ex is IOException && (ex.HResult & 0xFFFF) == 112) code = ExitDiskFull;                 // ERROR_DISK_FULL
+                else if (ex is UnauthorizedAccessException || ex is System.Security.SecurityException) code = ExitRejected;
+                try
+                {
+                    Directory.CreateDirectory(DataDir);
+                    File.AppendAllText(Path.Combine(DataDir, "setup-error.log"), DateTime.Now.ToString("s") + "  code " + code + "  " + ex + Environment.NewLine);
+                }
+                catch { }
+                if (!silent) MessageBox.Show("PDF Do setup failed (code " + code + "):\n\n" + ex.Message, "PDF Do Setup", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return code;   // silent mode never shows a window
             }
         }
+
+        // Exit codes (documented at https://sedhupathivishnu321.github.io/pdf-do/installer-return-codes.html)
+        const int ExitOk = 0, ExitFailure = 1603, ExitCancelled = 1223, ExitAlreadyExists = 1638, ExitInstallRunning = 1618, ExitDiskFull = 112, ExitRebootRequired = 3010, ExitRejected = 1625;
 
         // Portable: unpack once into %LOCALAPPDATA%\PDFDo\portable\<payload id>, then run PDFDo.exe from there (no install, no admin).
         static int RunPortable(string self, string[] args)
@@ -221,7 +239,7 @@ namespace PDFDoSetup
 
         static int Uninstall(bool silent)
         {
-            if (!silent && MessageBox.Show("Remove PDF Do from this computer?", "PDF Do Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return 0;
+            if (!silent && MessageBox.Show("Remove PDF Do from this computer?", "PDF Do Setup", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return ExitCancelled;
             StopRunning();
             foreach (var f in new[] { Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Programs), "PDF Do.lnk"), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "PDF Do.lnk") })
                 try { File.Delete(f); } catch { }

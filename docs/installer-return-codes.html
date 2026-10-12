@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF Do installer - return codes</title>
+<meta name="description" content="Exit codes returned by the PDF Do Windows installer (PDFDoSetup.exe) and its silent-install switches.">
+<link rel="icon" href="logo.png">
+<style>
+:root{--bg:#0f0d1a;--card:#1a1730;--ink:#f2f0ff;--mute:#a9a4c9;--acc:#8b5cf6;--line:#2b2750}
+@media (prefers-color-scheme:light){:root{--bg:#faf9ff;--card:#fff;--ink:#1b1736;--mute:#5b5780;--line:#e4e0f7}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}.wrap{max-width:860px;margin:0 auto;padding:32px 16px 64px}
+h1{font-size:30px;margin:0 0 6px}h2{font-size:22px;margin:36px 0 10px}p{color:var(--mute)}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:15px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--mute);font-weight:600}
+tr:last-child td{border-bottom:0}code{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p><a href="./">&larr; PDF Do</a></p>
+<h1>PDF Do installer: return codes</h1>
+<p>Applies to <code>PDFDoSetup.exe</code> (EXE installer, x64), published by VIN TECHNOLOGIES.</p>
+
+<h2>Command-line switches</h2>
+<table>
+<tr><th>Switch</th><th>Meaning</th></tr>
+<tr><td><code>/silent</code></td><td>Install without any window or prompt. Per-user install, no administrator rights, no restart.</td></tr>
+<tr><td><code>/uninstall</code></td><td>Remove PDF Do (use with <code>/silent</code> for no prompts). Normally run from Settings &rarr; Apps.</td></tr>
+</table>
+
+<h2>Return codes</h2>
+<table>
+<tr><th>Code</th><th>Scenario</th><th>Notes</th></tr>
+<tr><td><code>0</code></td><td>Success</td><td>Installed (or removed) successfully.</td></tr>
+<tr><td><code>1223</code></td><td>Cancelled by the user</td><td>The user declined the uninstall confirmation.</td></tr>
+<tr><td><code>1638</code></td><td>Application already exists</td><td>Reserved. An existing PDF Do is upgraded in place, so this is not normally returned.</td></tr>
+<tr><td><code>1618</code></td><td>Another installation already in progress</td><td>Another PDF Do setup is running. Wait for it to finish and run again.</td></tr>
+<tr><td><code>112</code></td><td>Disk full</td><td>Not enough free space (about 450 MB needed).</td></tr>
+<tr><td><code>3010</code></td><td>Restart required</td><td>Reserved. PDF Do never needs a restart.</td></tr>
+<tr><td><code>1625</code></td><td>Rejected by a security policy</td><td>Windows or an administrator policy blocked writing the files.</td></tr>
+<tr><td><code>1603</code></td><td>Other installation failure</td><td>Any other error. Details are written to <code>%LOCALAPPDATA%\PDFDo\setup-error.log</code>.</td></tr>
+</table>
+<p>The installer works completely offline, so it has no network-related failure codes.</p>
+</div>
+</body>
+</html>
