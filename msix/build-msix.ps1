@@ -1,12 +1,14 @@
 # Builds the Microsoft Store package:  dist\PDFDo.msix  (unsigned - the Store signs it)
 # Prerequisite: build.ps1 has produced dist\PDFDo (launcher + app + service). Windows SDK (makeappx) installed.
 # Use the three values from Partner Center > Product management > Product identity:
-#   .\msix\build-msix.ps1 -IdentityName "12345VINTECHNOLOGIES.PDFDo" -Publisher "CN=XXXXXXXX-XXXX-..." -PublisherDisplayName "VIN TECHNOLOGIES"
+#   .\msix\build-msix.ps1 -DisplayName "<reserved name>" -IdentityName "12345VINTECHNOLOGIES.PDFDo" -Publisher "CN=XXXXXXXX-XXXX-..." -PublisherDisplayName "VIN TECHNOLOGIES"
 # -LocalTestSign signs the package with the local VIN TECHNOLOGIES certificate (for sideload testing only).
 param(
-  [string]$IdentityName = 'VINTECHNOLOGIES.PDFDo',
-  [string]$Publisher = 'CN=VIN TECHNOLOGIES, O=VIN TECHNOLOGIES',
+  [string]$IdentityName = 'VINTECHNOLOGIES.PDFDO',
+  [string]$Publisher = 'CN=0D1D8335-3D60-4EA6-85DE-3155E29576A2',
   [string]$PublisherDisplayName = 'VIN TECHNOLOGIES',
+  [string]$DisplayName = 'PDF_DO',   # Package/Properties/DisplayName: must be exactly the product name reserved in Partner Center
+  [string]$AppName = 'PDF Do',       # name shown in the Start menu and on tiles
   [string]$Version = '1.1.0.0',
   [switch]$LooseOnly,
   [switch]$LocalTestSign
@@ -32,7 +34,7 @@ $bad = Get-ChildItem $layout -Recurse -Force | Where-Object { $_.Name -match '[<
 if ($bad) { throw ('File names not allowed in MSIX: ' + (($bad | Select-Object -First 5 -ExpandProperty FullName) -join '; ')) }
 
 $m = Get-Content (Join-Path $here 'AppxManifest.template.xml') -Raw
-$m = $m.Replace('@@IDENTITY_NAME@@', $IdentityName).Replace('@@PUBLISHER@@', $Publisher).Replace('@@PUBLISHER_DISPLAY_NAME@@', $PublisherDisplayName).Replace('@@VERSION@@', $Version)
+$m = $m.Replace('@@IDENTITY_NAME@@', $IdentityName).Replace('@@PUBLISHER@@', $Publisher).Replace('@@PUBLISHER_DISPLAY_NAME@@', $PublisherDisplayName).Replace('@@VERSION@@', $Version).Replace('@@DISPLAY_NAME@@', $DisplayName).Replace('@@APP_NAME@@', $AppName)
 [IO.File]::WriteAllText((Join-Path $layout 'AppxManifest.xml'), $m, (New-Object Text.UTF8Encoding($false)))
 # index the scale / target-size qualified icons into resources.pri so the manifest can reference the plain names
 $makepri = Join-Path (Split-Path $kit) 'makepri.exe'
