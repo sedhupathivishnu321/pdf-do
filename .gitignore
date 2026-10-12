@@ -27,3 +27,6 @@ mobile/android/build/
 *.jks
 *.keystore
 KEYSTORE-INFO.txt
+
+msix/layout/
+msix/priconfig.xml
