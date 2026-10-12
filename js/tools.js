@@ -393,15 +393,22 @@
   let speaking = false;
   T.readAloud = async function () {
     const d = need(); if (!d) return;
+    // Android app: the web view has no speechSynthesis, so use the phone's own text-to-speech engine through the Capacitor plugin
+    const nat = PD.native && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech;
     const ss = window.speechSynthesis;
-    if (!ss) { PD.toast('Speech is not available on this system', 'error'); return; }
-    if (speaking) { speaking = false; ss.cancel(); document.body.classList.remove('reading'); PD.toast('Stopped reading', 'info'); return; }
-    // voices load lazily in Chromium
-    let voices = ss.getVoices();
-    if (!voices.length) { await new Promise((r) => { ss.onvoiceschanged = r; setTimeout(r, 800); }); voices = ss.getVoices(); }
-    const voice = voices.find((v) => /^en/i.test(v.lang) && /natural|online/i.test(v.name)) || voices.find((v) => /^en/i.test(v.lang)) || voices[0] || null;
-    speaking = true; document.body.classList.add('reading'); ss.cancel();
-    PD.toast('Reading aloud from page ' + (d.cur + 1) + ' — click “Read aloud” again to stop', 'info');
+    if (!nat && !ss) { PD.toast('Speech is not available on this system', 'error'); return; }
+    if (speaking) { speaking = false; try { nat ? nat.stop() : ss.cancel(); } catch (e) { /* ignore */ } document.body.classList.remove('reading'); PD.toast('Stopped reading', 'info'); return; }
+    let voice = null;
+    if (!nat) {
+      // voices load lazily in Chromium
+      let voices = ss.getVoices();
+      if (!voices.length) { await new Promise((r) => { ss.onvoiceschanged = r; setTimeout(r, 800); }); voices = ss.getVoices(); }
+      voice = voices.find((v) => /^en/i.test(v.lang) && /natural|online/i.test(v.name)) || voices.find((v) => /^en/i.test(v.lang)) || voices[0] || null;
+      ss.cancel();
+    }
+    speaking = true; document.body.classList.add('reading');
+    PD.toast('Reading aloud from page ' + (d.cur + 1) + (nat ? ' — tap “Read aloud” again to stop' : ' — click “Read aloud” again to stop'), 'info');
+    let nativeFailed = false;
     let any = false;
     for (let i = d.cur; i < d.n && speaking; i++) {
       const pt = await PD.viewer.pageText(d, i); const text = pt.text.replace(/\s+/g, ' ').trim(); if (!text) continue;
@@ -412,10 +419,15 @@
       chunks.forEach((c) => { if ((cur + c).length > 220) { if (cur) parts.push(cur); cur = c; } else cur += c; }); if (cur) parts.push(cur);
       for (const part of parts) {
         if (!speaking) break;
+        if (nat) {
+          try { await nat.speak({ text: part, lang: 'en-US', rate: 1.0, pitch: 1.0, volume: 1.0, category: 'playback', queueStrategy: 0 }); }
+          catch (e) { nativeFailed = true; speaking = false; PD.toast('Speech failed: ' + ((e && e.message) || 'no text-to-speech engine installed on this phone'), 'error'); break; }
+          continue;
+        }
         await new Promise((res) => { const u = new SpeechSynthesisUtterance(part); if (voice) { u.voice = voice; u.lang = voice.lang; } u.onend = res; u.onerror = res; ss.speak(u); });
       }
     }
-    if (!any && speaking) PD.toast('No readable text found. Run OCR first for scanned pages.', 'error');
+    if (!any && speaking && !nativeFailed) PD.toast('No readable text found. Run OCR first for scanned pages.', 'error');
     speaking = false; document.body.classList.remove('reading');
   };
 
